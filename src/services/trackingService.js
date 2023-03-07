@@ -14,8 +14,8 @@ export default class trackingService{
         return axios.request(options);
     };
 
-    getGames(selectedTeam){
-        console.log(selectedTeam)
+    getGames(team){
+        console.log(team)
         const endDate = new Date().toISOString().slice(0, 10); // get today's date in YYYY-MM-DD format
         const startDate = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10); // calculate date 12 days ago in YYYY-MM-DD format
         const options = {
@@ -25,7 +25,7 @@ export default class trackingService{
                 page: '0',
                 dates: [endDate, startDate],
                 per_page: '12',
-                team_ids: [selectedTeam.id]
+                team_ids: [team.id]
             },
             headers: {
                 'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
