@@ -15,7 +15,8 @@ export default class trackingService{
     };
 
     getGames(team){
-        console.log(team)
+
+        console.log(team.id);
         const endDate = new Date().toISOString().slice(0, 10); // get today's date in YYYY-MM-DD format
         const startDate = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10); // calculate date 12 days ago in YYYY-MM-DD format
         const options = {
@@ -24,7 +25,7 @@ export default class trackingService{
             params: {
                 page: '0',
                 dates: [endDate, startDate],
-                per_page: '12',
+                per_page: '300',
                 team_ids: [team.id]
             },
             headers: {

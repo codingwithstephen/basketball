@@ -1,7 +1,6 @@
 // noinspection JSCheckFunctionSignatures
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {Button, Card, Col, Container, Dropdown, Row} from "react-bootstrap";
 import trackingService from "../../services/trackingService";
 
@@ -24,12 +23,14 @@ const TrackingScores = () => {
 
     const handleSelectTeam = (team) => {
         console.log(team)
-        setSelectedTeam(team.full_name);
+        setSelectedTeam(team);
         setConference(team.conference)
     };
 
     const handleTrackTeam = (selectedTeam)=>{
+        console.log(selectedTeam);
         service.getGames(selectedTeam).then(response =>{
+            console.log(response.data.data);
             setGames(response.data.data);
         });
     }
@@ -42,7 +43,7 @@ const TrackingScores = () => {
                     <Col md="2">
                         <Dropdown>
                             <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                {selectedTeam || 'Select Team'}
+                                {selectedTeam.full_name || 'Select Team'}
                             </Dropdown.Toggle>
                             <Dropdown.Menu id="teamSelect">
                                 {teams.map(team => (
@@ -58,7 +59,7 @@ const TrackingScores = () => {
                 <Row>
                     <Card style={{ width: '18rem' }}>
                         <Card.Body>
-                            <Card.Title>{selectedTeam}</Card.Title>
+                            <Card.Title>{selectedTeam.full_name}</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">{selectedConference} conference</Card.Subtitle>
                             <Card.Text>
                                 Some quick example text to build on the card title and make up the
