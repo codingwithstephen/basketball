@@ -138,12 +138,12 @@ const TrackingScores = () => {
                 </Row>
                 <br/>
                 <Row>
-                    <br/>  <br/>
+                    <br/> <br/>
                     <br/>
                     {trackTeam && selectedTeam &&
                         <Card style={{width: '18rem'}}>
                             <Card.Body>
-                                <Card.Title>{selectedTeam.full_name} - {selectedTeam.full_name.substr(0,3).toUpperCase()}</Card.Title>
+                                <Card.Title>{selectedTeam.full_name} - {selectedTeam.full_name.trim().substr(0, 3).toUpperCase()}</Card.Title>
                                 <Card.Subtitle
                                     className="mb-2 text-muted">{selectedConference} conference</Card.Subtitle>
                                 <Card.Text>
@@ -155,6 +155,7 @@ const TrackingScores = () => {
                                     </Card.Text>
                                 ))}
 
+                                <Card.Img src={'https://interstate21.com/nba-logos/'+ selectedTeam.full_name.substr(0, 3).toUpperCase() + '.png'} ></Card.Img>
                                 <Card.Text>Avg pts score: {averagePointsScored}</Card.Text>
                                 <Card.Text>Avg pts conceded: {averagePointsConceded}</Card.Text>
                             </Card.Body>
