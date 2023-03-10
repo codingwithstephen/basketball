@@ -1,7 +1,7 @@
 // noinspection JSCheckFunctionSignatures
 
 import React, {useState, useEffect} from 'react';
-import {Button, Card, Col, Container, Dropdown, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Dropdown, NavLink, Row} from "react-bootstrap";
 import trackingService from "../../services/trackingService";
 
 const service = new trackingService();
@@ -143,19 +143,24 @@ const TrackingScores = () => {
                     {trackTeam && selectedTeam &&
                         <Card style={{width: '18rem'}}>
                             <Card.Body>
-                                <Card.Title>{selectedTeam.full_name}</Card.Title>
+                                <Card.Title>{selectedTeam.full_name} - {selectedTeam.full_name.substr(0,3).toUpperCase()}</Card.Title>
                                 <Card.Subtitle
                                     className="mb-2 text-muted">{selectedConference} conference</Card.Subtitle>
                                 <Card.Text>
                                     Results of the past 12 days
                                 </Card.Text>
                                 {teamRecord.map((game, index) => (
-                                    <Card.Text key={index}>{game}</Card.Text>
+                                    <Card.Text key={index} className={game === 'W' ? 'win' : 'loss'}>
+                                        {game}
+                                    </Card.Text>
                                 ))}
 
                                 <Card.Text>Avg pts score: {averagePointsScored}</Card.Text>
                                 <Card.Text>Avg pts conceded: {averagePointsConceded}</Card.Text>
                             </Card.Body>
+                            <Card.Footer>
+                                <Button to="/results" variant="primary">See game results .... </Button>
+                            </Card.Footer>
                         </Card>
                     }
 

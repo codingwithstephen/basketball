@@ -1,5 +1,4 @@
 
-
 .App {
   text-align: center;
 }
@@ -37,4 +36,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.win {
+  background-color: green;
+  color: white;
+  border-radius: 50px;
+  padding: 5px 15px;
+  display: inline-block;
+}
+
+.loss {
+  background-color: red;
+  color: white;
+  border-radius: 50px;
+  padding: 5px 15px;
+  display: inline-block;
 }
