@@ -63,7 +63,7 @@ const TrackingScores = () => {
                                 {selectedTeam.full_name || 'Select Team'}
                             </Dropdown.Toggle>
                             <Dropdown.Menu id="teamSelect">
-                                {teams.map(team => (
+                                {teams?.map(team => (
                                     <Dropdown.Item key={team.id}
                                                    onClick={() => handleSelectTeam(team)}>{team.full_name}</Dropdown.Item>
                                 ))}
