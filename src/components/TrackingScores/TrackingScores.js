@@ -15,7 +15,8 @@ const TrackingScores = () => {
     const [averagePointsConceded, setAveragePointsConceded] = useState('');
     const [teamRecord, setTeamRecord] = useState([]);
 
-    console.log(process.env.REACT_APP_GET_TEAMS);
+    const [trackTeam, setTrackTeam] = useState(false);
+
     useEffect(() => {
         service.getTeams().then(response => {
             console.log(response.data.data)
@@ -31,52 +32,48 @@ const TrackingScores = () => {
     };
 
     const handleTrackTeam = (selectedTeam) => {
-        console.log(selectedTeam);
-        service.getGames(selectedTeam).then(response => {
-            console.log(response.data.data);
+        service.getGames(selectedTeam).then(async response => {
             setGames(response.data.data);
 
-            const averagePointsScored = calculateAverageScore(response.data.data, selectedTeam.id);
+            const averagePointsScored = await calculateAverageScore(response.data.data, selectedTeam.id);
             setAveragePointsScored(averagePointsScored)
 
-            const averagePointsConceded = calculateAveragePointsConceded(response.data.data, selectedTeam.id);
+            const averagePointsConceded = await calculateAveragePointsConceded(response.data.data, selectedTeam.id);
             setAveragePointsConceded(averagePointsConceded)
-            console.log(averagePointsConceded);
 
-            const teamRecord = getTeamRecord(selectedTeam.id, selectedGames);
-            console.log(teamRecord);
+            const teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
             setTeamRecord(teamRecord);
+
+            setTrackTeam(true)
         });
     }
 
-    function getWinLoss(teamId, game) {
-        var homeTeamWon = game.home_team_score > game.visitor_team_score;
-        var isHomeTeam = game.home_team.id === teamId;
+    async function getWinLoss(teamId, game) {
+        const homeTeamWon = game.home_team_score > game.visitor_team_score;
+        const awayTeamWon = game.home_team_score < game.visitor_team_score;
 
-        if (isHomeTeam && homeTeamWon) {
+        if (homeTeamWon) {
             return "W";
-        } else if (isHomeTeam && !homeTeamWon) {
-            return "L";
-        } else if (!isHomeTeam && !homeTeamWon) {
-            return "W";
-        } else {
+        } else if (awayTeamWon) {
             return "L";
         }
+
+        return "D";
     }
 
-    function getTeamRecord(teamId, games) {
-        var record = [];
+    async function getTeamRecord(teamId, games) {
+        let record = [];
 
-        for (var i = 0; i < games.length; i++) {
-            var game = games[i];
-            var winLoss = getWinLoss(teamId, game);
+        for (let i = 0; i < games.length; i++) {
+            const game = games[i];
+            const winLoss = await getWinLoss(teamId, game);
             record.push(winLoss);
         }
 
         return record;
     }
 
-    function calculateAverageScore(games, teamId) {
+    async function calculateAverageScore(games, teamId) {
         let totalScore = 0;
         let numberOfGames = 0;
 
@@ -96,7 +93,7 @@ const TrackingScores = () => {
         return averageScore;
     }
 
-    function calculateAveragePointsConceded(games, teamId) {
+    async function calculateAveragePointsConceded(games, teamId) {
         let totalPointsConceded = 0;
         let numberOfGames = 0;
 
@@ -139,9 +136,11 @@ const TrackingScores = () => {
                             Team</Button>
                     </Col>
                 </Row>
+                <br/>
                 <Row>
-
-                    {selectedTeam &&
+                    <br/>  <br/>
+                    <br/>
+                    {trackTeam && selectedTeam &&
                         <Card style={{width: '18rem'}}>
                             <Card.Body>
                                 <Card.Title>{selectedTeam.full_name}</Card.Title>
@@ -151,7 +150,7 @@ const TrackingScores = () => {
                                     Results of the past 12 days
                                 </Card.Text>
                                 {teamRecord.map((game, index) => (
-                                    <Card.Text key={index} className={teamRecord[index] === "W" ? "text-green" : "text-red"}>{game}</Card.Text>
+                                    <Card.Text key={index}>{game}</Card.Text>
                                 ))}
 
                                 <Card.Text>Avg pts score: {averagePointsScored}</Card.Text>
