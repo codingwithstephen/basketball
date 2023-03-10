@@ -15,17 +15,16 @@ export default class trackingService{
     };
 
     getGames(team){
+        const endDate = new Date().toISOString().slice(0, 10);
+        const startDate = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
-        console.log(team.id);
-        const endDate = new Date().toISOString().slice(0, 10); // get today's date in YYYY-MM-DD format
-        const startDate = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10); // calculate date 12 days ago in YYYY-MM-DD format
         const options = {
             method: 'GET',
             url: process.env.REACT_APP_GET_GAMES,
             params: {
                 page: '0',
                 dates: [endDate, startDate],
-                per_page: '300',
+                per_page: '20',
                 team_ids: [team.id]
             },
             headers: {
@@ -35,6 +34,4 @@ export default class trackingService{
         };
         return axios.request(options);
     }
-
-
 }

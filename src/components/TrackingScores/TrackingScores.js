@@ -62,11 +62,10 @@ const TrackingScores = () => {
                             <Card.Title>{selectedTeam.full_name}</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">{selectedConference} conference</Card.Subtitle>
                             <Card.Text>
-                                Some quick example text to build on the card title and make up the
-                                bulk of the card's content.
+                                Results of the past 12 days
                             </Card.Text>
-                            <Card.Link href="#">Card Link</Card.Link>
-                            <Card.Link href="#">Another Link</Card.Link>
+                            <Card.Text>Avg pts score: 109</Card.Text>
+                            <Card.Text>Avg pts conceded: 113</Card.Text>
                         </Card.Body>
                     </Card>
                 </Row>
