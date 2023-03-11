@@ -22,7 +22,7 @@ const TrackingScores = () => {
     useEffect(() => {
         getTeams();
 
-    }, [ ]);
+    }, []);
 
     async function getTeams() {
         await service.getTeams().then(response => {
@@ -41,7 +41,7 @@ const TrackingScores = () => {
 
     const handleTrackTeam = async (selectedTeam) => {
 
-        if (selectedGames.length > 0){
+        if (selectedGames.length > 0) {
             averagePointsScored = await calculateAverageScore(selectedGames, selectedTeam.id);
             await setAveragePointsScored(averagePointsScored)
 
@@ -52,23 +52,18 @@ const TrackingScores = () => {
             teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
             await setTeamRecord(teamRecord);
 
-            const isTeamTracked = trackedTeams.some((trackedTeam) => trackedTeam.selectedTeam.id === selectedTeam.id);
+            const newTrackedTeam = {
+                selectedTeam,
+                selectedConference,
+                teamRecord,
+                averagePointsScored,
+                averagePointsConceded,
+                selectedGames,
+            };
+            await setTrackedTeams([...trackedTeams, newTrackedTeam]);
+            trackTeam = true;
+            await setTrackTeam(trackTeam);
 
-            if (!isTeamTracked) {
-                const newTrackedTeam = {
-                    selectedTeam,
-                    selectedConference,
-                    teamRecord,
-                    averagePointsScored,
-                    averagePointsConceded,
-                    selectedGames,
-                };
-                await setTrackedTeams([...trackedTeams, newTrackedTeam]);
-                trackTeam = true;
-                await setTrackTeam(trackTeam);
-            } else {
-                console.log('The selected team is already being tracked.');
-            }
         }
 
     }
@@ -96,11 +91,11 @@ const TrackingScores = () => {
                         </Dropdown>
                     </Col>
 
-                    {selectedTeam &&
-                        <Col xs lg="9">
-                            <Button variant="primary" id="trackBtn" onClick={() => handleTrackTeam(selectedTeam)}>Track
-                                Team</Button>
-                        </Col>}
+
+                    <Col xs lg="9">
+                        <Button variant="primary" id="trackBtn" onClick={() => handleTrackTeam(selectedTeam)}>Track
+                            Team</Button>
+                    </Col>
 
                 </Row>
                 <br/>
@@ -108,7 +103,7 @@ const TrackingScores = () => {
                     <Col md="3">
                         <br/> <br/>
                         <br/>
-                        {trackedTeams && trackedTeams.length > 0 ?
+                        {trackedTeams ?
                             trackedTeams.map((trackedTeam, index) => (
                                 trackedTeam.selectedTeam && trackedTeam.selectedConference && trackedTeam.teamRecord && trackedTeam.averagePointsScored > 0 && trackedTeam.averagePointsConceded > 0 && trackedTeam.selectedGames && trackedTeam.selectedGames.length > 0 &&
                                 <TeamResults
@@ -125,7 +120,6 @@ const TrackingScores = () => {
                             :
                             <p>No tracked teams yet.</p>
                         }
-
 
 
                     </Col>
