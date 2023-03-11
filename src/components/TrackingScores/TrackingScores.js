@@ -46,6 +46,7 @@ const TrackingScores = () => {
             const teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
             setTeamRecord(teamRecord);
 
+
             setTrackTeam(true)
         });
     }
