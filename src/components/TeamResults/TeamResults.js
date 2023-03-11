@@ -26,7 +26,11 @@ const TeamResults = (props) => {
                 <br/>
                 <Row>
                     <Card style={{width: '18rem'}}>
+                        <Card.Header>
+                            <Button className="close-button" onClick={props.onRemove} variant="link">&times;</Button>
+                        </Card.Header>
                         <Card.Body>
+
                             <Card.Title>{props.selectedTeam.full_name} - {getAbbreviation()}</Card.Title>
                             <Card.Subtitle
                                 className="mb-2 text-muted">{props.selectedConference} conference</Card.Subtitle>

@@ -25,6 +25,7 @@ const Results = () => {
                 <br/>
                 <Row>
                     <Card style={{width: '18rem'}}>
+
                         <Card.Body>
                             <Card.Title>{state.props.selectedTeam.full_name} - {getAbbreviation()}</Card.Title>
                             <Card.Subtitle

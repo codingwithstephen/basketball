@@ -43,21 +43,33 @@ const TrackingScores = () => {
 
             const teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
             setTeamRecord(teamRecord);
-            const newTrackedTeam = {
-                selectedTeam,
-                selectedConference,
-                teamRecord,
-                averagePointsScored,
-                averagePointsConceded,
-                selectedGames,
-            };
-            setTrackedTeams([...trackedTeams, newTrackedTeam]);
 
-            setTrackTeam(true)
+            const isTeamTracked = trackedTeams.some((trackedTeam) => trackedTeam.selectedTeam.id === selectedTeam.id);
+
+            if (!isTeamTracked) {
+                service.getGames(selectedTeam).then(async (response) => {
+                    setGames(response.data.data);
+                    const newTrackedTeam = {
+                        selectedTeam,
+                        selectedConference,
+                        teamRecord,
+                        averagePointsScored,
+                        averagePointsConceded,
+                        selectedGames,
+                    };
+                    setTrackedTeams([...trackedTeams, newTrackedTeam]);
+                    setTrackTeam(true);
+                });
+            } else {
+                console.log('The selected team is already being tracked.');
+            }
+
         });
     }
 
-
+    const handleRemove = (index) => {
+        setTrackedTeams(trackedTeams.filter((_, i) => i !== index));
+    };
 
     return (
         <React.Fragment>
@@ -95,6 +107,7 @@ const TrackingScores = () => {
                             averagePointsScored={trackedTeam.averagePointsScored}
                             averagePointsConceded={trackedTeam.averagePointsConceded}
                             selectedGames={trackedTeam.selectedGames}
+                            onRemove={() => handleRemove(index)}
                         />
                     ))}
 
