@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Card, Container, Row} from "react-bootstrap";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const Results = () => {
     let navigate = useNavigate();
@@ -39,7 +39,7 @@ const Results = () => {
 
                                 </Card.Text>
                             ))}
-                            <Button onClick={routeChange} variant="primary"> {buttonText} </Button>
+                            <Button onClick={routeChange} variant="primary" id="backBtn"> {buttonText} </Button>
                         </Card.Body>
                     </Card>
                 </Row>

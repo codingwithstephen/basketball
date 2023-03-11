@@ -23,7 +23,10 @@ export async function getTeamRecord(teamId, games) {
     return record;
 }
 
-export async function calculateAverageScore(games, teamId) {
+export function calculateAverageScore(games, teamId) {
+
+    console.log(games);
+
     let totalScore = 0;
     let numberOfGames = 0;
 
@@ -37,7 +40,13 @@ export async function calculateAverageScore(games, teamId) {
         }
     });
 
-    return numberOfGames > 0 ? totalScore / numberOfGames : 0;
+    if (numberOfGames === 0) {
+        console.log(`Team with ID ${teamId} did not play in any games.`);
+    } else {
+        console.log(`Team with ID ${teamId} played in ${numberOfGames} games and scored a total of ${totalScore} points.`);
+    }
+
+    return  numberOfGames > 0 ? totalScore / numberOfGames : 0;
 
 }
 

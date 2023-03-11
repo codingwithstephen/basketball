@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Card, Container, Row} from "react-bootstrap";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const TeamResults = (props) => {
     let navigate = useNavigate();
@@ -28,7 +28,7 @@ const TeamResults = (props) => {
                 <Row>
                     <Card style={{width: '18rem'}}>
                         <Card.Header>
-                            <Button className="close-button" onClick={props.onRemove} variant="link">&times;</Button>
+                            <Button className="close-button" onClick={props.onRemove} variant="link" id={props.selectedTeam}>&times;</Button>
                         </Card.Header>
                         <Card.Body>
 
@@ -45,10 +45,10 @@ const TeamResults = (props) => {
                             ))}
 
                             <Card.Img
-                                src={'https://interstate21.com/nba-logos/' + props.selectedTeam.full_name.substr(0, 3).toUpperCase() + '.png'}></Card.Img>
+                                src={'https://interstate21.com/nba-logos/' + getAbbreviation() + '.png'}></Card.Img>
                             <Card.Text>Avg pts score: {props.averagePointsScored}</Card.Text>
                             <Card.Text>Avg pts conceded: {props.averagePointsConceded}</Card.Text>
-                            <Button onClick={routeChange} variant="primary">See game results >>> </Button>
+                            <Button onClick={routeChange} variant="primary" id={props.selectedTeam}>See game results >>> </Button>
                         </Card.Body>
                     </Card>
                 </Row>
