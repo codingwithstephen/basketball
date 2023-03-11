@@ -24,7 +24,7 @@ export default class trackingService{
             params: {
                 page: [0],
                 dates: [[endDate], [startDate]],
-                per_page: [12],
+                per_page: 12,
                 team_ids: [team.id]
             },
             headers: {
