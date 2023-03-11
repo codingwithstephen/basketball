@@ -11,7 +11,7 @@ export default class trackingService{
                 'X-RapidAPI-Host': process.env.REACT_APP_GET_HOST
             }
         };
-        return await axios.request(options);
+        return axios.request(options);
     };
 
     async getGames(team){
@@ -24,9 +24,9 @@ export default class trackingService{
             method: 'GET',
             url: process.env.REACT_APP_GET_GAMES,
             params: {
-                page: '0',
-                dates: [endDate, startDate],
-                per_page: '12',
+                page: [0],
+                dates: [[endDate], [startDate]],
+                per_page: [25],
                 team_ids: [team.id]
             },
             headers: {
@@ -34,8 +34,7 @@ export default class trackingService{
                 'X-RapidAPI-Host': process.env.REACT_APP_GET_HOST
             }
         };
-        const response = await axios.request(options);
-        return response;
+        return axios.request(options);
     }
 
 

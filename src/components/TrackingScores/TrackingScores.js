@@ -37,6 +37,8 @@ const TrackingScores = () => {
 
     const handleTrackTeam = (selectedTeam) => {
         service.getGames(selectedTeam).then(async response => {
+
+            console.log(response.data.data);
             setGames(response.data.data);
 
             const avgPointsScored = await calculateAverageScore(response.data.data, selectedTeam.id);
