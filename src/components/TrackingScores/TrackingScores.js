@@ -30,48 +30,46 @@ const TrackingScores = () => {
         });
     }
 
-    const handleSelectTeam = (team) => {
-        setSelectedTeam(team);
-        setConference(team.conference)
+    const handleSelectTeam = async (team) => {
+        await setSelectedTeam(team);
+        await setConference(team.conference)
+        const games = await service.getGames(selectedTeam);
+        const teamId = team.id; // replace with your team's id
+        const filteredGames = games.data.data.filter(game => game.home_team.id === teamId || game.visitor_team.id === teamId);
+        await setGames(filteredGames);
     };
 
-    const handleTrackTeam = (selectedTeam) => {
-        service.getGames(selectedTeam).then(async response => {
+    const handleTrackTeam = async (selectedTeam) => {
 
-            console.log(response.data.data);
-            setGames(response.data.data);
+        if (selectedGames.length > 0){
+            const avgPointsScored = await calculateAverageScore(selectedGames, selectedTeam.id);
+            await setAveragePointsScored(avgPointsScored)
 
-            const avgPointsScored = await calculateAverageScore(response.data.data, selectedTeam.id);
-            setAveragePointsScored(avgPointsScored)
-
-            const avgPointsConceded= await calculateAveragePointsConceded(response.data.data, selectedTeam.id);
-            setAveragePointsConceded(avgPointsConceded)
+            const avgPointsConceded = await calculateAveragePointsConceded(selectedGames, selectedTeam.id);
+            await setAveragePointsConceded(avgPointsConceded)
 
             const teamGames = await getTeamRecord(selectedTeam.id, selectedGames);
-            setTeamRecord(teamGames);
+            await setTeamRecord(teamGames);
 
             const isTeamTracked = trackedTeams.some((trackedTeam) => trackedTeam.selectedTeam.id === selectedTeam.id);
 
             if (!isTeamTracked) {
-                await service.getGames(selectedTeam).then(async (response) => {
-                    setGames(response.data.data);
-                    const newTrackedTeam = {
-                        selectedTeam,
-                        selectedConference,
-                        teamRecord,
-                        averagePointsScored,
-                        averagePointsConceded,
-                        selectedGames,
-                    };
-                    setTrackedTeams([...trackedTeams, newTrackedTeam]);
-                    trackTeam = true;
-                    setTrackTeam(trackTeam);
-                });
+                const newTrackedTeam = {
+                    selectedTeam,
+                    selectedConference,
+                    teamGames,
+                    avgPointsScored,
+                    avgPointsConceded,
+                    selectedGames,
+                };
+                await setTrackedTeams([...trackedTeams, newTrackedTeam]);
+                trackTeam = true;
+                await setTrackTeam(trackTeam);
             } else {
                 console.log('The selected team is already being tracked.');
             }
+        }
 
-        });
     }
 
     const handleRemove = (index) => {
@@ -109,18 +107,25 @@ const TrackingScores = () => {
                     <Col md="3">
                         <br/> <br/>
                         <br/>
-                        {trackedTeams.map((trackedTeam, index) => (
-                            <TeamResults
-                                key={index}
-                                selectedTeam={trackedTeam.selectedTeam}
-                                selectedConference={trackedTeam.selectedConference}
-                                teamRecord={trackedTeam.teamRecord}
-                                averagePointsScored={trackedTeam.averagePointsScored}
-                                averagePointsConceded={trackedTeam.averagePointsConceded}
-                                selectedGames={trackedTeam.selectedGames}
-                                onRemove={() => handleRemove(index)}
-                            />
-                        ))}
+                        {trackedTeams && trackedTeams.length > 0 ?
+                            trackedTeams.map((trackedTeam, index) => (
+                                trackedTeam.selectedTeam && trackedTeam.selectedConference && trackedTeam.teamGames && trackedTeam.avgPointsScored > 0 && trackedTeam.avgPointsConceded > 0 && trackedTeam.selectedGames && trackedTeam.selectedGames.length > 0 &&
+                                <TeamResults
+                                    key={index}
+                                    selectedTeam={trackedTeam.selectedTeam}
+                                    selectedConference={trackedTeam.selectedConference}
+                                    teamRecord={trackedTeam.teamGames}
+                                    averagePointsScored={trackedTeam.avgPointsScored}
+                                    averagePointsConceded={trackedTeam.avgPointsConceded}
+                                    selectedGames={trackedTeam.selectedGames}
+                                    onRemove={() => handleRemove(index)}
+                                />
+                            ))
+                            :
+                            <p>No tracked teams yet.</p>
+                        }
+
+
 
                     </Col>
 
