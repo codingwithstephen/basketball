@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class trackingService{
-    getTeams(){
+    async getTeams(){
         const options = {
             method: 'GET',
             url: process.env.REACT_APP_GET_TEAMS,
@@ -11,10 +11,10 @@ export default class trackingService{
                 'X-RapidAPI-Host': process.env.REACT_APP_GET_HOST
             }
         };
-        return axios.request(options);
+        return await axios.request(options);
     };
 
-    getGames(team){
+    async getGames(team){
         const endDate = new Date().toISOString().slice(0, 10);
         const startDate = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
@@ -34,7 +34,8 @@ export default class trackingService{
                 'X-RapidAPI-Host': process.env.REACT_APP_GET_HOST
             }
         };
-        return axios.request(options);
+        const response = await axios.request(options);
+        return response;
     }
 
 

@@ -20,11 +20,15 @@ const TrackingScores = () => {
     let [trackTeam, setTrackTeam] = useState(false);
 
     useEffect(() => {
-        service.getTeams().then(response => {
-            setTeams(response.data.data);
-        });
+        getTeams();
 
     }, [ ]);
+
+    async function getTeams() {
+        await service.getTeams().then(response => {
+            setTeams(response.data.data);
+        });
+    }
 
     const handleSelectTeam = (team) => {
         setSelectedTeam(team);
@@ -47,7 +51,7 @@ const TrackingScores = () => {
             const isTeamTracked = trackedTeams.some((trackedTeam) => trackedTeam.selectedTeam.id === selectedTeam.id);
 
             if (!isTeamTracked) {
-                service.getGames(selectedTeam).then(async (response) => {
+                await service.getGames(selectedTeam).then(async (response) => {
                     setGames(response.data.data);
                     const newTrackedTeam = {
                         selectedTeam,
