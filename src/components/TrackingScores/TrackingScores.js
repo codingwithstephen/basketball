@@ -4,7 +4,7 @@ import React, {useState, useEffect} from 'react';
 import {Button, Col, Container, Dropdown, Row} from "react-bootstrap";
 import trackingService from "../../services/trackingService";
 import {calculateAveragePointsConceded, calculateAverageScore, getTeamRecord} from "../../utils/calculations";
-import TeamResults from "../TeamResults/TeamResults";
+import ResultsSnapshot from "../ResultsSnapshot/ResultsSnapshot";
 
 const service = new trackingService();
 
@@ -110,7 +110,7 @@ const TrackingScores = () => {
                         {trackedTeams ?
                             trackedTeams.map((trackedTeam, index) => (
                                 trackedTeam.selectedTeam && trackedTeam.selectedConference && trackedTeam.teamRecord && trackedTeam.averagePointsScored > 0 && trackedTeam.averagePointsConceded > 0 && trackedTeam.selectedGames && trackedTeam.selectedGames.length > 0 &&
-                                <TeamResults
+                                <ResultsSnapshot
                                     key={index}
                                     selectedTeam={trackedTeam.selectedTeam}
                                     selectedConference={trackedTeam.selectedConference}

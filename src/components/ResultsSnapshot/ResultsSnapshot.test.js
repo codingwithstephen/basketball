@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import TeamResults from './TeamResults';
+import ResultsSnapshot from './ResultsSnapshot';
 
-describe('<TeamResults />', () => {
+describe('<ResultsSnapshot />', () => {
   test('it should mount', () => {
-    render(<TeamResults />);
+    render(<ResultsSnapshot />);
     
-    const teamResults = screen.getByTestId('TeamResults');
+    const teamResults = screen.getByTestId('ResultsSnapshot');
 
     expect(teamResults).toBeInTheDocument();
   });

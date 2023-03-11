@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Card, Container, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 
-const TeamResults = (props) => {
+const ResultsSnapshot = (props) => {
     let navigate = useNavigate();
 
     function routeChange() {
@@ -58,4 +58,4 @@ const TeamResults = (props) => {
     );
 };
 
-export default TeamResults;
+export default ResultsSnapshot;
