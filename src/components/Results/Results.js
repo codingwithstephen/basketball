@@ -12,8 +12,10 @@ const Results = () => {
     const buttonText = "<< Back to all team stats";
 
     const {state} = useLocation();
+
+    console.log(state)
     function getAbbreviation(){
-        return state.props.selectedTeam.abbreviation;
+        return state.selectedTeam.abbreviation;
     }
 
     console.log(state)
@@ -27,13 +29,13 @@ const Results = () => {
                     <Card style={{width: '18rem'}}>
 
                         <Card.Body>
-                            <Card.Title>{state.props.selectedTeam.full_name} - {getAbbreviation()}</Card.Title>
+                            <Card.Title>{state?.selectedTeam?.full_name} - {getAbbreviation()}</Card.Title>
                             <Card.Subtitle
-                                className="mb-2 text-muted">{state.props.selectedTeam.conference} conference</Card.Subtitle>
-                            {state.props.selectedGames.map((game, index) => (
+                                className="mb-2 text-muted">{state?.selectedTeam?.conference} conference</Card.Subtitle>
+                            {state?.selectedGames && state?.selectedGames?.map((game, index) => (
                                 <Card.Text key={index}>
-                                    <strong>{game.home_team.abbreviation}</strong> {game.home_team_score} - {game.visitor_team_score}
-                                    <strong> {game.visitor_team.abbreviation}</strong>
+                                    <strong>{game?.home_team?.abbreviation}</strong> {game?.home_team_score} - {game?.visitor_team_score}
+                                    <strong> {game?.visitor_team?.abbreviation}</strong>
 
                                 </Card.Text>
                             ))}

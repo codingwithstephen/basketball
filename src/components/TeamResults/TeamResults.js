@@ -1,21 +1,22 @@
-
 import React from 'react';
 import {Button, Card, Container, Row} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 
 const TeamResults = (props) => {
     let navigate = useNavigate();
+
     function routeChange() {
         let path = `/results`;
         navigate(path,
             {
                 state: {
-                    props
+                    selectedTeam: props.selectedTeam,
+                    selectedGames: props.selectedGames
                 }
             });
     }
 
-    function getAbbreviation(){
+    function getAbbreviation() {
         return props.selectedTeam.abbreviation;
     }
 
@@ -43,7 +44,8 @@ const TeamResults = (props) => {
                                 </Card.Text>
                             ))}
 
-                            <Card.Img src={'https://interstate21.com/nba-logos/'+ props.selectedTeam.full_name.substr(0, 3).toUpperCase() + '.png'} ></Card.Img>
+                            <Card.Img
+                                src={'https://interstate21.com/nba-logos/' + props.selectedTeam.full_name.substr(0, 3).toUpperCase() + '.png'}></Card.Img>
                             <Card.Text>Avg pts score: {props.averagePointsScored}</Card.Text>
                             <Card.Text>Avg pts conceded: {props.averagePointsConceded}</Card.Text>
                             <Button onClick={routeChange} variant="primary">See game results >>> </Button>
