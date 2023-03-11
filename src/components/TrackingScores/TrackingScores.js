@@ -17,7 +17,7 @@ const TrackingScores = () => {
     const [averagePointsConceded, setAveragePointsConceded] = useState('');
     const [teamRecord, setTeamRecord] = useState([]);
     const [trackedTeams, setTrackedTeams] = useState([]);
-    const [trackTeam, setTrackTeam] = useState(false);
+    let [trackTeam, setTrackTeam] = useState(false);
 
     useEffect(() => {
         service.getTeams().then(response => {
@@ -35,14 +35,14 @@ const TrackingScores = () => {
         service.getGames(selectedTeam).then(async response => {
             setGames(response.data.data);
 
-            const averagePointsScored = await calculateAverageScore(response.data.data, selectedTeam.id);
-            setAveragePointsScored(averagePointsScored)
+            const avgPointsScored = await calculateAverageScore(response.data.data, selectedTeam.id);
+            setAveragePointsScored(avgPointsScored)
 
-            const averagePointsConceded = await calculateAveragePointsConceded(response.data.data, selectedTeam.id);
-            setAveragePointsConceded(averagePointsConceded)
+            const avgPointsConceded= await calculateAveragePointsConceded(response.data.data, selectedTeam.id);
+            setAveragePointsConceded(avgPointsConceded)
 
-            const teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
-            setTeamRecord(teamRecord);
+            const teamGames = await getTeamRecord(selectedTeam.id, selectedGames);
+            setTeamRecord(teamGames);
 
             const isTeamTracked = trackedTeams.some((trackedTeam) => trackedTeam.selectedTeam.id === selectedTeam.id);
 
@@ -58,7 +58,8 @@ const TrackingScores = () => {
                         selectedGames,
                     };
                     setTrackedTeams([...trackedTeams, newTrackedTeam]);
-                    setTrackTeam(true);
+                    trackTeam = true;
+                    setTrackTeam(trackTeam);
                 });
             } else {
                 console.log('The selected team is already being tracked.');
