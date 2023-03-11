@@ -18,8 +18,6 @@ export default class trackingService{
         const endDate = new Date().toISOString().slice(0, 10);
         const startDate = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
-        console.log(startDate)
-        console.log(endDate)
         const options = {
             method: 'GET',
             url: process.env.REACT_APP_GET_GAMES,

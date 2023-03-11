@@ -13,12 +13,11 @@ const Results = () => {
 
     const {state} = useLocation();
 
-    console.log(state)
+
     function getAbbreviation(){
         return state.selectedTeam.abbreviation;
     }
 
-    console.log(state)
 
     return (
         <React.Fragment>

@@ -25,7 +25,6 @@ export async function getTeamRecord(teamId, games) {
 
 export async function calculateAverageScore(games, teamId) {
 
-    console.log(games);
 
     let totalScore = 0;
     let numberOfGames = 0;
