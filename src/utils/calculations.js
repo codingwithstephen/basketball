@@ -23,7 +23,7 @@ export async function getTeamRecord(teamId, games) {
     return record;
 }
 
-export function calculateAverageScore(games, teamId) {
+export async function calculateAverageScore(games, teamId) {
 
     console.log(games);
 

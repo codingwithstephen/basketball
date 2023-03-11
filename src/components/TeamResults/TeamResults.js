@@ -6,7 +6,7 @@ const TeamResults = (props) => {
     let navigate = useNavigate();
 
     function routeChange() {
-        let path = `/results`;
+        let path = `/results/` + getAbbreviation();
         navigate(path,
             {
                 state: {
@@ -39,9 +39,10 @@ const TeamResults = (props) => {
                                 Results of the past 12 days
                             </Card.Text>
                             {props.teamRecord.map((game, index) => (
-                                <Card.Text key={index} className={game === 'W' ? 'win' : 'loss'}>
+                                <Card.Text key={index} className={game === 'W' ? 'win' : game === 'L' ? 'loss' : 'draw'}>
                                     {game}
                                 </Card.Text>
+
                             ))}
 
                             <Card.Img

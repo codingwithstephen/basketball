@@ -24,7 +24,7 @@ const TrackingScores = () => {
             setTeams(response.data.data);
         });
 
-    }, []);
+    }, [ ]);
 
     const handleSelectTeam = (team) => {
         setSelectedTeam(team);
@@ -89,27 +89,33 @@ const TrackingScores = () => {
                             </Dropdown.Menu>
                         </Dropdown>
                     </Col>
-                    <Col xs lg="9">
-                        <Button variant="primary" id="trackBtn" onClick={() => handleTrackTeam(selectedTeam)}>Track
-                            Team</Button>
-                    </Col>
+
+                    {selectedTeam &&
+                        <Col xs lg="9">
+                            <Button variant="primary" id="trackBtn" onClick={() => handleTrackTeam(selectedTeam)}>Track
+                                Team</Button>
+                        </Col>}
+
                 </Row>
                 <br/>
                 <Row>
-                    <br/> <br/>
-                    <br/>
-                    {trackedTeams.map((trackedTeam, index) => (
-                        <TeamResults
-                            key={index}
-                            selectedTeam={trackedTeam.selectedTeam}
-                            selectedConference={trackedTeam.selectedConference}
-                            teamRecord={trackedTeam.teamRecord}
-                            averagePointsScored={trackedTeam.averagePointsScored}
-                            averagePointsConceded={trackedTeam.averagePointsConceded}
-                            selectedGames={trackedTeam.selectedGames}
-                            onRemove={() => handleRemove(index)}
-                        />
-                    ))}
+                    <Col md="3">
+                        <br/> <br/>
+                        <br/>
+                        {trackedTeams.map((trackedTeam, index) => (
+                            <TeamResults
+                                key={index}
+                                selectedTeam={trackedTeam.selectedTeam}
+                                selectedConference={trackedTeam.selectedConference}
+                                teamRecord={trackedTeam.teamRecord}
+                                averagePointsScored={trackedTeam.averagePointsScored}
+                                averagePointsConceded={trackedTeam.averagePointsConceded}
+                                selectedGames={trackedTeam.selectedGames}
+                                onRemove={() => handleRemove(index)}
+                            />
+                        ))}
+
+                    </Col>
 
                 </Row>
             </Container>

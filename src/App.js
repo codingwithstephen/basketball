@@ -10,6 +10,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<TrackingScores/>}/>
                 <Route path="/results" element={<Results/>}/>
+                <Route path="/results/:teamCode" element={<Results/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </BrowserRouter>
