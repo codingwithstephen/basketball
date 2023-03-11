@@ -6,14 +6,17 @@ import {Link, useNavigate} from "react-router-dom";
 const TeamResults = (props) => {
     let navigate = useNavigate();
     function routeChange() {
-        let path = `/results;`;
-        navigate(path);
+        let path = `/results`;
+        navigate(path,
+            {
+                state: {
+                    props
+                }
+            });
     }
 
-    function getImage(){
-        const image = props.selectedTeam.abbreviation;
-
-        return image;
+    function getAbbreviation(){
+        return props.selectedTeam.abbreviation;
     }
 
     return (
@@ -24,7 +27,7 @@ const TeamResults = (props) => {
                 <Row>
                     <Card style={{width: '18rem'}}>
                         <Card.Body>
-                            <Card.Title>{props.selectedTeam.full_name} - {getImage()}</Card.Title>
+                            <Card.Title>{props.selectedTeam.full_name} - {getAbbreviation()}</Card.Title>
                             <Card.Subtitle
                                 className="mb-2 text-muted">{props.selectedConference} conference</Card.Subtitle>
                             <Card.Text>

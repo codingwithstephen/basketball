@@ -21,14 +21,12 @@ const TrackingScores = () => {
 
     useEffect(() => {
         service.getTeams().then(response => {
-            console.log(response.data.data)
             setTeams(response.data.data);
         });
 
     }, []);
 
     const handleSelectTeam = (team) => {
-        console.log(team)
         setSelectedTeam(team);
         setConference(team.conference)
     };
@@ -81,7 +79,7 @@ const TrackingScores = () => {
                     <br/> <br/>
                     <br/>
                     {trackTeam && selectedTeam &&
-                      <TeamResults selectedTeam={selectedTeam} selectedConference={selectedConference} teamRecord={teamRecord} averagePointsScored={averagePointsScored} averagePointsConceded={averagePointsConceded}/>
+                      <TeamResults selectedTeam={selectedTeam} selectedConference={selectedConference} teamRecord={teamRecord} averagePointsScored={averagePointsScored} averagePointsConceded={averagePointsConceded} selectedGames={selectedGames}/>
                     }
 
                 </Row>
