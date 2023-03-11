@@ -51,18 +51,23 @@ const TrackingScores = () => {
 
         teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
         await setTeamRecord(teamRecord);
+        const isTeamTracked = trackedTeams.some((trackedTeam) => trackedTeam.selectedTeam.id === selectedTeam.id);
 
-        const newTrackedTeam = {
-            selectedTeam,
-            selectedConference,
-            teamRecord,
-            averagePointsScored,
-            averagePointsConceded,
-            selectedGames,
-        };
-        await setTrackedTeams([...trackedTeams, newTrackedTeam]);
-        trackTeam = true;
-        await setTrackTeam(trackTeam);
+        if (!isTeamTracked) {
+            const newTrackedTeam = {
+                selectedTeam,
+                selectedConference,
+                teamRecord,
+                averagePointsScored,
+                averagePointsConceded,
+                selectedGames,
+            };
+            await setTrackedTeams([...trackedTeams, newTrackedTeam]);
+            trackTeam = true;
+            await setTrackTeam(trackTeam);
+
+        }
+
 
 
     }
