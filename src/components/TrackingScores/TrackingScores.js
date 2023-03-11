@@ -11,7 +11,7 @@ const service = new trackingService();
 const TrackingScores = () => {
     const [teams, setTeams] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState('');
-    const [selectedGames, setGames] = useState('');
+    let [selectedGames, setGames] = useState('');
     const [selectedConference, setConference] = useState('');
     let [averagePointsScored, setAveragePointsScored] = useState('');
     let [averagePointsConceded, setAveragePointsConceded] = useState('');
@@ -33,38 +33,37 @@ const TrackingScores = () => {
     const handleSelectTeam = async (team) => {
         await setSelectedTeam(team);
         await setConference(team.conference)
-        const games = await service.getGames(selectedTeam);
-        const teamId = team.id; // replace with your team's id
-        const filteredGames = games.data.data.filter(game => game.home_team.id === teamId || game.visitor_team.id === teamId);
-        await setGames(filteredGames);
+
     };
 
     const handleTrackTeam = async (selectedTeam) => {
 
-        if (selectedGames.length > 0) {
-            averagePointsScored = await calculateAverageScore(selectedGames, selectedTeam.id);
-            await setAveragePointsScored(averagePointsScored)
+        const games = await service.getGames(selectedTeam);
+        const teamId = selectedTeam.id;
+        selectedGames = games.data.data.filter(game => game.home_team.id === teamId || game.visitor_team.id === teamId);
+        await setGames(selectedGames);
+        averagePointsScored = await calculateAverageScore(selectedGames, selectedTeam.id);
+        await setAveragePointsScored(averagePointsScored)
 
-            averagePointsConceded = await calculateAveragePointsConceded(selectedGames, selectedTeam.id);
-            await setAveragePointsConceded(averagePointsConceded)
+        averagePointsConceded = await calculateAveragePointsConceded(selectedGames, selectedTeam.id);
+        await setAveragePointsConceded(averagePointsConceded)
 
 
-            teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
-            await setTeamRecord(teamRecord);
+        teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
+        await setTeamRecord(teamRecord);
 
-            const newTrackedTeam = {
-                selectedTeam,
-                selectedConference,
-                teamRecord,
-                averagePointsScored,
-                averagePointsConceded,
-                selectedGames,
-            };
-            await setTrackedTeams([...trackedTeams, newTrackedTeam]);
-            trackTeam = true;
-            await setTrackTeam(trackTeam);
+        const newTrackedTeam = {
+            selectedTeam,
+            selectedConference,
+            teamRecord,
+            averagePointsScored,
+            averagePointsConceded,
+            selectedGames,
+        };
+        await setTrackedTeams([...trackedTeams, newTrackedTeam]);
+        trackTeam = true;
+        await setTrackTeam(trackTeam);
 
-        }
 
     }
 
