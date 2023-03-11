@@ -13,11 +13,23 @@ export default class trackingService{
         };
         return axios.request(options);
     };
+    getLastXDays(x) {
+        const dates = [];
+        for (let i = 0; i < x; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            const dateString = date.toISOString().split('T')[0];
+            dates.push(`${dateString}T00:00:00.000Z`);
+        }
+        return dates;
+    }
+
+
 
     async getGames(team){
         const endDate = new Date().toISOString().slice(0, 10);
         const startDate = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-
+        const days = this.getLastXDays(12);
         console.log(endDate);
         console.log(startDate);
         const options = {
@@ -25,18 +37,7 @@ export default class trackingService{
             url: process.env.REACT_APP_GET_GAMES,
             params: {
                 page: [0],
-                dates: ['2023-03-11T00:00:00.000Z',
-                    '2023-03-10T00:00:00.000Z',
-                    '2023-03-09T00:00:00.000Z',
-                    '2023-03-08T00:00:00.000Z',
-                    '2023-03-07T00:00:00.000Z',
-                    '2023-03-06T00:00:00.000Z',
-                    '2023-03-05T00:00:00.000Z',
-                    '2023-03-04T00:00:00.000Z',
-                    '2023-03-03T00:00:00.000Z',
-                    '2023-03-02T00:00:00.000Z',
-                    '2023-03-01T00:00:00.000Z',
-                    '2023-02-28T00:00:00.000Z'],
+                dates: days,
                 per_page: 12,
                 team_ids: [team.id]
             },
