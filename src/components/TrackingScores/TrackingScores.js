@@ -16,7 +16,7 @@ const TrackingScores = () => {
     const [averagePointsScored, setAveragePointsScored] = useState('');
     const [averagePointsConceded, setAveragePointsConceded] = useState('');
     const [teamRecord, setTeamRecord] = useState([]);
-
+    const [trackedTeams, setTrackedTeams] = useState([]);
     const [trackTeam, setTrackTeam] = useState(false);
 
     useEffect(() => {
@@ -43,7 +43,15 @@ const TrackingScores = () => {
 
             const teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
             setTeamRecord(teamRecord);
-
+            const newTrackedTeam = {
+                selectedTeam,
+                selectedConference,
+                teamRecord,
+                averagePointsScored,
+                averagePointsConceded,
+                selectedGames,
+            };
+            setTrackedTeams([...trackedTeams, newTrackedTeam]);
 
             setTrackTeam(true)
         });
@@ -78,9 +86,17 @@ const TrackingScores = () => {
                 <Row>
                     <br/> <br/>
                     <br/>
-                    {trackTeam && selectedTeam &&
-                      <TeamResults selectedTeam={selectedTeam} selectedConference={selectedConference} teamRecord={teamRecord} averagePointsScored={averagePointsScored} averagePointsConceded={averagePointsConceded} selectedGames={selectedGames}/>
-                    }
+                    {trackedTeams.map((trackedTeam, index) => (
+                        <TeamResults
+                            key={index}
+                            selectedTeam={trackedTeam.selectedTeam}
+                            selectedConference={trackedTeam.selectedConference}
+                            teamRecord={trackedTeam.teamRecord}
+                            averagePointsScored={trackedTeam.averagePointsScored}
+                            averagePointsConceded={trackedTeam.averagePointsConceded}
+                            selectedGames={trackedTeam.selectedGames}
+                        />
+                    ))}
 
                 </Row>
             </Container>
