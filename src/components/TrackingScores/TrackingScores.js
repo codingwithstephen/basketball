@@ -13,9 +13,9 @@ const TrackingScores = () => {
     const [selectedTeam, setSelectedTeam] = useState('');
     const [selectedGames, setGames] = useState('');
     const [selectedConference, setConference] = useState('');
-    const [averagePointsScored, setAveragePointsScored] = useState('');
-    const [averagePointsConceded, setAveragePointsConceded] = useState('');
-    const [teamRecord, setTeamRecord] = useState([]);
+    let [averagePointsScored, setAveragePointsScored] = useState('');
+    let [averagePointsConceded, setAveragePointsConceded] = useState('');
+    let [teamRecord, setTeamRecord] = useState([]);
     const [trackedTeams, setTrackedTeams] = useState([]);
     let [trackTeam, setTrackTeam] = useState(false);
 
@@ -42,14 +42,15 @@ const TrackingScores = () => {
     const handleTrackTeam = async (selectedTeam) => {
 
         if (selectedGames.length > 0){
-            const avgPointsScored = await calculateAverageScore(selectedGames, selectedTeam.id);
-            await setAveragePointsScored(avgPointsScored)
+            averagePointsScored = await calculateAverageScore(selectedGames, selectedTeam.id);
+            await setAveragePointsScored(averagePointsScored)
 
-            const avgPointsConceded = await calculateAveragePointsConceded(selectedGames, selectedTeam.id);
-            await setAveragePointsConceded(avgPointsConceded)
+            averagePointsConceded = await calculateAveragePointsConceded(selectedGames, selectedTeam.id);
+            await setAveragePointsConceded(averagePointsConceded)
 
-            const teamGames = await getTeamRecord(selectedTeam.id, selectedGames);
-            await setTeamRecord(teamGames);
+
+            teamRecord = await getTeamRecord(selectedTeam.id, selectedGames);
+            await setTeamRecord(teamRecord);
 
             const isTeamTracked = trackedTeams.some((trackedTeam) => trackedTeam.selectedTeam.id === selectedTeam.id);
 
@@ -57,9 +58,9 @@ const TrackingScores = () => {
                 const newTrackedTeam = {
                     selectedTeam,
                     selectedConference,
-                    teamGames,
-                    avgPointsScored,
-                    avgPointsConceded,
+                    teamRecord,
+                    averagePointsScored,
+                    averagePointsConceded,
                     selectedGames,
                 };
                 await setTrackedTeams([...trackedTeams, newTrackedTeam]);
@@ -109,14 +110,14 @@ const TrackingScores = () => {
                         <br/>
                         {trackedTeams && trackedTeams.length > 0 ?
                             trackedTeams.map((trackedTeam, index) => (
-                                trackedTeam.selectedTeam && trackedTeam.selectedConference && trackedTeam.teamGames && trackedTeam.avgPointsScored > 0 && trackedTeam.avgPointsConceded > 0 && trackedTeam.selectedGames && trackedTeam.selectedGames.length > 0 &&
+                                trackedTeam.selectedTeam && trackedTeam.selectedConference && trackedTeam.teamRecord && trackedTeam.averagePointsScored > 0 && trackedTeam.averagePointsConceded > 0 && trackedTeam.selectedGames && trackedTeam.selectedGames.length > 0 &&
                                 <TeamResults
                                     key={index}
                                     selectedTeam={trackedTeam.selectedTeam}
                                     selectedConference={trackedTeam.selectedConference}
-                                    teamRecord={trackedTeam.teamGames}
-                                    averagePointsScored={trackedTeam.avgPointsScored}
-                                    averagePointsConceded={trackedTeam.avgPointsConceded}
+                                    teamRecord={trackedTeam.teamRecord}
+                                    averagePointsScored={trackedTeam.averagePointsScored}
+                                    averagePointsConceded={trackedTeam.averagePointsConceded}
                                     selectedGames={trackedTeam.selectedGames}
                                     onRemove={() => handleRemove(index)}
                                 />
