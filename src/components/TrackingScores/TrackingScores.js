@@ -23,7 +23,7 @@ const TrackingScores = () => {
 
     useEffect(() => {
         getTeams();
-        const storedTrackedTeams = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+        const storedTrackedTeams = JSON.parse(sessionStorage.getItem(LOCAL_STORAGE_KEY));
         if (storedTrackedTeams) {
             setTrackedTeams(storedTrackedTeams);
         }
@@ -71,7 +71,7 @@ const TrackingScores = () => {
             await setTrackedTeams([...trackedTeams, newTrackedTeam]);
             trackTeam = true;
             await setTrackTeam(trackTeam);
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...trackedTeams, newTrackedTeam]));
+            sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...trackedTeams, newTrackedTeam]));
 
         }
 
@@ -82,7 +82,7 @@ const TrackingScores = () => {
         setTrackedTeams(trackedTeams.filter((_, i) => i !== index));
 
         const tt = trackedTeams.filter((_, i) => i !== index);
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...tt]));
+        sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...tt]));
     };
 
     return (
