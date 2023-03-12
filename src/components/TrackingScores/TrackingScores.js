@@ -5,6 +5,7 @@ import {Button, Col, Container, Dropdown, Row} from "react-bootstrap";
 import trackingService from "../../services/trackingService";
 import {calculateAveragePointsConceded, calculateAverageScore, getTeamRecord} from "../../utils/calculations";
 import ResultsSnapshot from "../ResultsSnapshot/ResultsSnapshot";
+const LOCAL_STORAGE_KEY = "trackedTeams";
 
 const service = new trackingService();
 
@@ -21,6 +22,10 @@ const TrackingScores = () => {
 
     useEffect(() => {
         getTeams();
+        const storedTrackedTeams = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+        if (storedTrackedTeams) {
+            setTrackedTeams(storedTrackedTeams);
+        }
 
     }, []);
 
@@ -65,6 +70,7 @@ const TrackingScores = () => {
             await setTrackedTeams([...trackedTeams, newTrackedTeam]);
             trackTeam = true;
             await setTrackTeam(trackTeam);
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...trackedTeams, newTrackedTeam]));
 
         }
 
