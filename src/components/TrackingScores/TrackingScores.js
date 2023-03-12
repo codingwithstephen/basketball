@@ -5,6 +5,7 @@ import {Button, Col, Container, Dropdown, Row} from "react-bootstrap";
 import trackingService from "../../services/trackingService";
 import {calculateAveragePointsConceded, calculateAverageScore, getTeamRecord} from "../../utils/calculations";
 import ResultsSnapshot from "../ResultsSnapshot/ResultsSnapshot";
+
 const LOCAL_STORAGE_KEY = "trackedTeams";
 
 const service = new trackingService();
@@ -75,11 +76,13 @@ const TrackingScores = () => {
         }
 
 
-
     }
 
     const handleRemove = (index) => {
         setTrackedTeams(trackedTeams.filter((_, i) => i !== index));
+
+        const tt = trackedTeams.filter((_, i) => i !== index);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([...tt]));
     };
 
     return (
